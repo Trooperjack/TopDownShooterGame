@@ -14,6 +14,9 @@ public class Player : MonoBehaviour {
     public string horizontalAxis = "Horizontal";
     public string verticalAxis = "Vertical";
 
+    public Animator playerAnimator;
+    public SpriteRenderer playerSprite;
+    public Collider2D playerCollider;
 
     // Use this for initialization
     void Start () {
@@ -26,6 +29,9 @@ public class Player : MonoBehaviour {
         float x = Input.GetAxis(horizontalAxis);
         float y = Input.GetAxis(verticalAxis);
         physicsBody.velocity = new Vector2(x * speed, y * speed);
+
+
+
 
     }
 }
