@@ -3610,9 +3610,18 @@ MonoBehaviour:
   physicsBody: {fileID: 1386294821}
   horizontalAxis: Horizontal
   verticalAxis: Vertical
+  fireAxis: Fire2
+  playerControl: xy
+  lives: 3
+  health: 100
+  magazine: 30
+  ammo: 120
   playerAnimator: {fileID: 0}
   playerSprite: {fileID: 1386294822}
   playerCollider: {fileID: 1386294824}
+  bulletPrefab: {fileID: 1301940969671580, guid: 605f4dd1f131a8a4499dc8a93ff1a417,
+    type: 2}
+  bulletSpawn: {fileID: 1386294823}
 --- !u!50 &1386294821
 Rigidbody2D:
   serializedVersion: 4
