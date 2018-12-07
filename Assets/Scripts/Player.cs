@@ -19,11 +19,16 @@ public class Player : MonoBehaviour {
 
     public float lives = 3;
     public float health = 100;
+    public float maxHealth = 100;
     public float magazine = 0;
     public float maxMagazine = 30;
     public float ammo = 0;
     public float maxAmmo = 120;
     public float bulletForce = 1000;
+    public float bulletDamage = 50;
+    public float fireRate = 0.2f;
+    public float fireTimer = 0.0f;
+    public bool weaponReady = true;
 
     public Animator playerAnimator;
     public SpriteRenderer playerSprite;
@@ -31,12 +36,15 @@ public class Player : MonoBehaviour {
     
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
+    public Transform enemyPosition;
 
     // Use this for initialization
     void Start () {
 
+        health = maxHealth;
         magazine = maxMagazine;
         ammo = maxAmmo;
+        fireTimer = fireRate;
         enableWeapon = true;
 
 	}
@@ -85,6 +93,22 @@ public class Player : MonoBehaviour {
         }
 
 
+        //Fire rate time delay
+        if(weaponReady == false)
+        {
+            fireTimer -= Time.deltaTime;
+            if(fireTimer <= 0)
+            {
+                fireTimer = fireRate;
+                weaponReady = true;
+            }
+        }
+
+
+        float enemyStep = speed;
+        enemyPosition.transform.position = Vector2.MoveTowards(enemyPosition.transform.position, transform.position, enemyStep);
+
+
     }
 
 
@@ -92,15 +116,19 @@ public class Player : MonoBehaviour {
     //Weapon fired
     void FireWeapon()
     {
-        magazine = magazine - 1;
+        if (weaponReady == true)
+        {
+            weaponReady = false;
+            magazine = magazine - 1;
 
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = (Vector2)((mousePos - transform.position));
-        direction.Normalize();
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 direction = (Vector2)((mousePos - transform.position));
+            direction.Normalize();
 
-        var Bullet = (GameObject)Instantiate(bulletPrefab, bulletSpawn.position + (Vector3)(direction * 0.5f), Quaternion.identity);
-        Bullet.GetComponent<Rigidbody2D>().AddForce(direction * bulletForce);
-        Destroy(Bullet, 2.0f);
+            var Bullet = (GameObject)Instantiate(bulletPrefab, bulletSpawn.position + (Vector3)(direction * 0.5f), Quaternion.identity);
+            Bullet.GetComponent<Rigidbody2D>().AddForce(direction * bulletForce);
+            Destroy(Bullet, 2.0f);
+        }
     }
 
 
