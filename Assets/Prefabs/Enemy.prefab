@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1013270339626090}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.0932446, y: -3.996487, z: 0}
+  m_LocalPosition: {x: 1.615232, y: -3.696664, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -89,9 +89,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b00d1d0d3384064c983c3f8c548275b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPosition: {fileID: 4697935235966648, guid: 7ab50f3568f1cbe4a808f52ae9a9f0ab,
+    type: 2}
+  enemyPosition: {fileID: 4762890824053128}
   speed: 10
   physicsBody: {fileID: 50678770812913180}
   enableWeapon: 0
+  enableMovement: 1
   health: 100
   magazine: 0
   maxMagazine: 30
@@ -128,8 +132,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -652088235
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 58f9dae04e7abe140be3e3625d104ed6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

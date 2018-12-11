@@ -36,7 +36,6 @@ public class Player : MonoBehaviour {
     
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
-    public Transform enemyPosition;
 
     // Use this for initialization
     void Start () {
@@ -105,8 +104,6 @@ public class Player : MonoBehaviour {
         }
 
 
-        float enemyStep = speed;
-        enemyPosition.transform.position = Vector2.MoveTowards(enemyPosition.transform.position, transform.position, enemyStep);
 
 
     }
