@@ -129,5 +129,10 @@ public class Player : MonoBehaviour {
     }
 
 
+    public void damaged()
+    {
+        health = health - 50;
+    }
+
 
 }
