@@ -135,6 +135,7 @@ public class Player : MonoBehaviour {
     public void damaged()
     {
         healthObject.LoseHealth();
+        healthObject.UpdateHealthText();
 
         bool noHealth = healthObject.IsNoHealth();
 
@@ -152,6 +153,7 @@ public class Player : MonoBehaviour {
     {
 
         //Take away a life and save the change
+        healthObject.ResetHealth();
         livesObject.LoseLife();
         livesObject.SaveLives();
 

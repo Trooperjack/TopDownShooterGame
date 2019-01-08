@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour {
     public float fireRate = 0.2f;
     public float fireTimer = 0.0f;
     public bool weaponReady = false;
+    public bool weaponDelayDone = false;
     public float movementTime = 5;
 
     public GameObject enemyBulletPrefab;
@@ -55,13 +56,14 @@ public class Enemy : MonoBehaviour {
 
         //Weapon Fire Delayed from spawned
         weaponDelay -= Time.deltaTime;
-        if (weaponDelay < 0)
+        if (weaponDelay < 0 && weaponDelayDone == false)
         {
+            weaponDelayDone = true;
             weaponReady = true;
+            FireWeapon();
         }
 
 
-        FireWeapon();
 
 
         //Fire rate time delay
@@ -72,6 +74,7 @@ public class Enemy : MonoBehaviour {
             {
                 fireTimer = fireRate;
                 weaponReady = true;
+                FireWeapon();
             }
         }
 

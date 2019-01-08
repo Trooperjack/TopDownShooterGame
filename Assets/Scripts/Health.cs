@@ -30,8 +30,10 @@ public class Health : MonoBehaviour
         // Get the health from the prefs database
         // Use a default of 100 of no lives was saved
         // Store the result in our numerical health variable
-        //numericalHealth = PlayerPrefs.GetInt("health", 100);
-        numericalHealth = numericalMaxHealth;
+        numericalHealth = PlayerPrefs.GetInt("health", 100);
+        //numericalHealth = numericalMaxHealth;
+
+        ResetHealth();
 
         // Update the visual health
         healthText.text = numericalHealth.ToString();
@@ -65,9 +67,22 @@ public class Health : MonoBehaviour
     //      Public so it can be triggered from another script (aka door)
     public void SaveHealth()
     {
-        //PlayerPrefs.SetInt("health", numericalHealth);
+        PlayerPrefs.SetInt("health", numericalHealth);
     }
 
+
+    public void ResetHealth()
+    {
+        //PlayerPrefs.SetInt("health", 100);
+        numericalHealth = numericalMaxHealth;
+    }
+
+
+
+    public void UpdateHealthText()
+    {
+        healthText.text = numericalHealth.ToString();
+    }
 
 
     public bool IsNoHealth()
