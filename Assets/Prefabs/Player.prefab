@@ -114,6 +114,10 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1301940969671580, guid: 605f4dd1f131a8a4499dc8a93ff1a417,
     type: 2}
   bulletSpawn: {fileID: 4697935235966648}
+  livesObject: {fileID: 114691651412970312, guid: 7acfa291f56be7a4daa2277974195564,
+    type: 2}
+  healthObject: {fileID: 114137672744542702, guid: 0c268a1dd2c37d24a97de16d9be2f885,
+    type: 2}
 --- !u!212 &212837365160949312
 SpriteRenderer:
   m_ObjectHideFlags: 1

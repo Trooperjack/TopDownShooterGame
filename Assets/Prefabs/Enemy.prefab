@@ -111,8 +111,7 @@ MonoBehaviour:
   movementTime: 5
   enemyBulletPrefab: {fileID: 1478335813980210, guid: 55da557ee9bce1147a6ea35f936ebbc5,
     type: 2}
-  enemyBulletSpawn: {fileID: 4616202401160258, guid: 55da557ee9bce1147a6ea35f936ebbc5,
-    type: 2}
+  enemyBulletSpawn: {fileID: 4762890824053128}
 --- !u!212 &212953530554564724
 SpriteRenderer:
   m_ObjectHideFlags: 1

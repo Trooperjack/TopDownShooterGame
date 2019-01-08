@@ -37,10 +37,13 @@ public class Player : MonoBehaviour {
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
 
+    public Lives livesObject;
+    public Health healthObject;
+
     // Use this for initialization
     void Start () {
 
-        health = maxHealth;
+        //health = maxHealth;
         magazine = maxMagazine;
         ammo = maxAmmo;
         fireTimer = fireRate;
@@ -131,8 +134,59 @@ public class Player : MonoBehaviour {
 
     public void damaged()
     {
-        health = health - 50;
+        healthObject.LoseHealth();
+
+        bool noHealth = healthObject.IsNoHealth();
+
+        if (noHealth == true)
+        {
+           Kill();
+        }
     }
+
+
+
+
+    // Our own function for handling player death
+    public void Kill()
+    {
+
+        //Take away a life and save the change
+        livesObject.LoseLife();
+        livesObject.SaveLives();
+
+
+        // Check if it's game over
+        bool gameOver = livesObject.IsGameOver();
+
+
+        if (gameOver == true)
+        {
+            //If it IS game over...
+            //Load the game over scene
+            SceneManager.LoadScene("GameOver");
+        }
+        else
+        {
+            //If it is NOT game over...
+            //Reset the current level to restart from
+
+
+
+            // Reset the current level to restart from the beginning.
+
+            // First, ask unity what the current level is
+            Scene currentLevel = SceneManager.GetActiveScene();
+
+            // Second, tell unity to load the current again
+            // by passing the build index of our level
+            SceneManager.LoadScene(currentLevel.buildIndex);
+        }
+
+
+
+    }
+
 
 
 }
