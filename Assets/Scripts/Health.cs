@@ -42,7 +42,8 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // Update the visual health
+        healthText.text = numericalHealth.ToString();
     }
 
 

@@ -105,14 +105,17 @@ MonoBehaviour:
   maxMagazine: 30
   bulletForce: 1000
   weaponDelay: 0.2
-  fireRate: 0.4
+  fireRate: 0.6
   fireTimer: 0
   weaponReady: 0
   weaponDelayDone: 0
   movementTime: 5
+  scoreValue: 10
   enemyBulletPrefab: {fileID: 1478335813980210, guid: 55da557ee9bce1147a6ea35f936ebbc5,
     type: 2}
   enemyBulletSpawn: {fileID: 4762890824053128}
+  scoreObject: {fileID: 114240662323262012, guid: 5c5750b7163cc5441bb2d612a08cfe94,
+    type: 2}
 --- !u!212 &212953530554564724
 SpriteRenderer:
   m_ObjectHideFlags: 1

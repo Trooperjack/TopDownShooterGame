@@ -16,6 +16,9 @@ public class Player : MonoBehaviour {
     public string fireAxis = "Fire2";
     public string playerControl = "xy";
     public bool enableWeapon;
+    public bool enableMovement;
+    public bool godMode;
+    public bool traveling;
 
     public float lives = 3;
     public float health = 100;
@@ -29,6 +32,7 @@ public class Player : MonoBehaviour {
     public float fireRate = 0.2f;
     public float fireTimer = 0.0f;
     public bool weaponReady = true;
+    public float travelTime = 10;
 
     public Animator playerAnimator;
     public SpriteRenderer playerSprite;
@@ -40,14 +44,19 @@ public class Player : MonoBehaviour {
     public Lives livesObject;
     public Health healthObject;
 
+    Vector2 newZonePos;
+
     // Use this for initialization
     void Start () {
 
+        traveling = false;
+        godMode = false;
         //health = maxHealth;
         magazine = maxMagazine;
         ammo = maxAmmo;
         fireTimer = fireRate;
         enableWeapon = true;
+        enableMovement = true;
 
 	}
 	
@@ -56,18 +65,18 @@ public class Player : MonoBehaviour {
 
 
         //Current player movement axis
-        if (playerControl == "xy")
+        if (playerControl == "xy" && enableMovement == true)
         {
             float x = Input.GetAxis(horizontalAxis);
             float y = Input.GetAxis(verticalAxis);
             physicsBody.velocity = new Vector2(x * speed, y * speed);
         }
-        else if (playerControl == "x")
+        else if (playerControl == "x" && enableMovement == true)
         {
             float x = Input.GetAxis(horizontalAxis);
             physicsBody.velocity = new Vector2(x * speed, 0);
         }
-        else if (playerControl == "y")
+        else if (playerControl == "y" && enableMovement == true)
         {
             float y = Input.GetAxis(verticalAxis);
             physicsBody.velocity = new Vector2(0, y * speed);
@@ -107,6 +116,19 @@ public class Player : MonoBehaviour {
         }
 
 
+        if(traveling == true)
+        {
+            travelTime -= Time.deltaTime;
+            if (travelTime <= 0)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, newZonePos, Time.deltaTime * speed);
+                godMode = false;
+                enableWeapon = true;
+                enableMovement = true;
+                weaponReady = true;
+                playerControl = "xx";
+            }
+        }
 
 
     }
@@ -119,7 +141,7 @@ public class Player : MonoBehaviour {
         if (weaponReady == true)
         {
             weaponReady = false;
-            magazine = magazine - 1;
+            //magazine = magazine - 1;
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 direction = (Vector2)((mousePos - transform.position));
@@ -134,14 +156,17 @@ public class Player : MonoBehaviour {
 
     public void damaged()
     {
-        healthObject.LoseHealth();
-        healthObject.UpdateHealthText();
-
-        bool noHealth = healthObject.IsNoHealth();
-
-        if (noHealth == true)
+        if (godMode == false)
         {
-           Kill();
+            healthObject.LoseHealth();
+            healthObject.UpdateHealthText();
+
+            bool noHealth = healthObject.IsNoHealth();
+
+            if (noHealth == true)
+            {
+                Kill();
+            }
         }
     }
 
@@ -187,6 +212,20 @@ public class Player : MonoBehaviour {
 
 
 
+    }
+
+
+
+
+    public void moveToZone2()
+    {
+        godMode = true;
+        enableWeapon = false;
+        enableMovement = false;
+        weaponReady = false;
+
+        travelTime = 10;
+        newZonePos = new Vector2(0, 30);
     }
 
 

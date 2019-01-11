@@ -9,12 +9,20 @@ public class Bullet : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Enemy enemyScript = collision.collider.GetComponent<Enemy>();
+        EnemyBullet enemyBulletScript = collision.collider.GetComponent<EnemyBullet>();
 
         if (enemyScript != null)
         {
             enemyScript.damaged();
             Destroy(gameObject);
         }
+
+
+        if (enemyBulletScript != null)
+        {
+            Destroy(gameObject);
+        }
+
     }
 
 

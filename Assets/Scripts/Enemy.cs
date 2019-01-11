@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Using statement for the unity UI code
+using UnityEngine.UI;
+
 public class Enemy : MonoBehaviour {
 
 
@@ -28,14 +31,21 @@ public class Enemy : MonoBehaviour {
     public bool weaponReady = false;
     public bool weaponDelayDone = false;
     public float movementTime = 5;
+    public int scoreValue;
 
     public GameObject enemyBulletPrefab;
     public Transform enemyBulletSpawn;
+    public Score scoreObject;
+    public mapManager mapManagerObject;
+
+    Vector2 spawnPosition;
 
 
 
     // Use this for initialization
     void Start () {
+        //score = GameObject.Find("/score_text");
+        spawnPosition = transform.position;
         randomPositionX = Random.Range(-5, 5);
         randomPositionY = Random.Range(-5, 0);
         enemyBody = GetComponent<Rigidbody2D>();
@@ -81,7 +91,10 @@ public class Enemy : MonoBehaviour {
 
         if (health <= 0)
         {
-            Destroy(gameObject);
+            scoreObject.AddScore(scoreValue);
+            mapManagerObject.addKill();
+            respawn();
+            //Destroy(gameObject);
         }
 
         
@@ -127,6 +140,16 @@ public class Enemy : MonoBehaviour {
             Bullet.GetComponent<Rigidbody2D>().AddForce(direction * bulletForce);
             Destroy(Bullet, 2.0f);
         }
+    }
+
+
+    public void respawn()
+    {
+        movementTime = 5;
+        health = 100;
+        transform.position = spawnPosition;
+        randomPositionX = Random.Range(-5, 5);
+        randomPositionY = Random.Range(-5, 0);
     }
 
 
