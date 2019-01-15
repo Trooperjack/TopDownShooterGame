@@ -6,6 +6,13 @@ public class Bullet : MonoBehaviour {
 
     public Collider2D bulletCollider;
 
+
+    private void Start()
+    {
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+    }
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Enemy enemyScript = collision.collider.GetComponent<Enemy>();

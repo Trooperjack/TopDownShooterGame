@@ -94,8 +94,11 @@ MonoBehaviour:
   horizontalAxis: Horizontal
   verticalAxis: Vertical
   fireAxis: Fire2
-  playerControl: xy
+  playerControl: y
   enableWeapon: 1
+  enableMovement: 0
+  godMode: 0
+  traveling: 1
   lives: 3
   health: 100
   maxHealth: 100
@@ -108,6 +111,11 @@ MonoBehaviour:
   fireRate: 0.12
   fireTimer: 0
   weaponReady: 1
+  zone: 1
+  travelTime: 8
+  maxTravelTime: 8
+  kills: 0
+  killsRequired: 10
   playerAnimator: {fileID: 0}
   playerSprite: {fileID: 212837365160949312}
   playerCollider: {fileID: 70027749713346288}

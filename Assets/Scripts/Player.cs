@@ -32,7 +32,16 @@ public class Player : MonoBehaviour {
     public float fireRate = 0.2f;
     public float fireTimer = 0.0f;
     public bool weaponReady = true;
-    public float travelTime = 10;
+
+    private Vector2 playerPosition;
+    public bool movingToNewZonePos = false;
+    public float posPart = 0;
+
+    public float zone = 1;
+    public float travelTime = 8;
+    public float maxTravelTime = 8;
+    public float kills = 0;
+    public float killsRequired = 10;
 
     public Animator playerAnimator;
     public SpriteRenderer playerSprite;
@@ -43,6 +52,7 @@ public class Player : MonoBehaviour {
 
     public Lives livesObject;
     public Health healthObject;
+    public MovingText movingTextObject;
 
     Vector2 newZonePos;
 
@@ -55,14 +65,23 @@ public class Player : MonoBehaviour {
         magazine = maxMagazine;
         ammo = maxAmmo;
         fireTimer = fireRate;
+        kills = 0;
+        killsRequired = 10;
+        travelTime = maxTravelTime;
+        zone = 1;
         enableWeapon = true;
         enableMovement = true;
+        movingToNewZonePos = false;
+        posPart = 0;
+        playerControl = "x";
+        movingTextObject.removeMovingText();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
+        playerPosition = transform.position;
 
         //Current player movement axis
         if (playerControl == "xy" && enableMovement == true)
@@ -116,19 +135,45 @@ public class Player : MonoBehaviour {
         }
 
 
+        //Travel to next point
         if(traveling == true)
         {
             travelTime -= Time.deltaTime;
-            if (travelTime <= 0)
+            godMode = true;
+            enableWeapon = false;
+            enableMovement = false;
+            weaponReady = false;
+            movingToNewZonePos = true;
+            movingTextObject.activateMovingText();
+            if (playerPosition == newZonePos && posPart == 0)
             {
-                transform.position = Vector2.MoveTowards(transform.position, newZonePos, Time.deltaTime * speed);
+                newZonePos = new Vector2(0, -30);
+                posPart = 1;
+            }
+            if (playerPosition == newZonePos && posPart == 1)
+            {
+                newZonePos = new Vector2(-30, -30);
+                posPart = 2;
+            }
+            if (playerPosition == newZonePos && posPart == 2)
+            {
+                traveling = false;
                 godMode = false;
                 enableWeapon = true;
                 enableMovement = true;
                 weaponReady = true;
-                playerControl = "xx";
+                movingToNewZonePos = false;
+                posPart = 3;
+                travelTime = maxTravelTime;
+                movingTextObject.removeMovingText();
             }
         }
+
+        if (movingToNewZonePos == true)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, newZonePos, Time.deltaTime * speed);
+        }
+
 
 
     }
@@ -209,24 +254,27 @@ public class Player : MonoBehaviour {
             // by passing the build index of our level
             SceneManager.LoadScene(currentLevel.buildIndex);
         }
-
-
-
     }
 
 
 
 
-    public void moveToZone2()
+    public void enemyKilled()
     {
-        godMode = true;
-        enableWeapon = false;
-        enableMovement = false;
-        weaponReady = false;
-
-        travelTime = 10;
-        newZonePos = new Vector2(0, 30);
+        kills = kills + 1;
+        Debug.Log(kills);
+        //When amount of kills meet the requirements
+        if (kills >= killsRequired)
+        {
+            Debug.Log("OBJECTIVE MET");
+            newZonePos = new Vector2(0, -5);
+            playerControl = "y";
+            traveling = true;
+            killsRequired = killsRequired + 10;
+        }
     }
+
+
 
 
 

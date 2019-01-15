@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour {
     public GameObject enemyBulletPrefab;
     public Transform enemyBulletSpawn;
     public Score scoreObject;
-    public mapManager mapManagerObject;
+    public Player playerObject;
 
     Vector2 spawnPosition;
 
@@ -92,7 +92,7 @@ public class Enemy : MonoBehaviour {
         if (health <= 0)
         {
             scoreObject.AddScore(scoreValue);
-            mapManagerObject.addKill();
+            playerObject.enemyKilled();
             respawn();
             //Destroy(gameObject);
         }
