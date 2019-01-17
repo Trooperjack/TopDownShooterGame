@@ -43,6 +43,8 @@ public class Player : MonoBehaviour {
     public float kills = 0;
     public float killsRequired = 10;
 
+    public bool isDefending = false;
+
     public Animator playerAnimator;
     public SpriteRenderer playerSprite;
     public Collider2D playerCollider;
@@ -53,6 +55,8 @@ public class Player : MonoBehaviour {
     public Lives livesObject;
     public Health healthObject;
     public MovingText movingTextObject;
+    public DefendText defendTextObject;
+    public KillsText killsTextObject;
 
     Vector2 newZonePos;
 
@@ -72,9 +76,11 @@ public class Player : MonoBehaviour {
         enableWeapon = true;
         enableMovement = true;
         movingToNewZonePos = false;
+        isDefending = false;
         posPart = 0;
         playerControl = "x";
         movingTextObject.removeMovingText();
+        defendTextObject.removeDefendText();
 
 	}
 	
@@ -163,15 +169,24 @@ public class Player : MonoBehaviour {
                 enableMovement = true;
                 weaponReady = true;
                 movingToNewZonePos = false;
+                isDefending = true;
                 posPart = 3;
                 travelTime = maxTravelTime;
                 movingTextObject.removeMovingText();
+                defendTextObject.beginDefendTimer();
             }
         }
 
         if (movingToNewZonePos == true)
         {
             transform.position = Vector2.MoveTowards(transform.position, newZonePos, Time.deltaTime * speed);
+        }
+
+
+
+        if (isDefending == true)
+        {
+
         }
 
 
@@ -262,15 +277,18 @@ public class Player : MonoBehaviour {
     public void enemyKilled()
     {
         kills = kills + 1;
+        killsTextObject.addKillToText();
         Debug.Log(kills);
         //When amount of kills meet the requirements
-        if (kills >= killsRequired)
+        if (kills >= killsRequired && zone == 1)
         {
             Debug.Log("OBJECTIVE MET");
+            zone = 2;
             newZonePos = new Vector2(0, -5);
             playerControl = "y";
             traveling = true;
             killsRequired = killsRequired + 10;
+            killsTextObject.removeObjective();
         }
     }
 

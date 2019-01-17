@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour {
     public Player playerObject;
 
     Vector2 spawnPosition;
-
+    Vector2 playerVectorPosition;
 
 
     // Use this for initialization
@@ -53,6 +53,8 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        playerVectorPosition = playerPosition.position;
 
         if (enableMovement == true)
         {
