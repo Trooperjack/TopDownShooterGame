@@ -33,6 +33,13 @@ public class Enemy : MonoBehaviour {
     public float movementTime = 5;
     public int scoreValue;
 
+    public float objective = 1;
+
+    public float readyDelay = 0;
+    public float minReadyDelay = 0;
+    public float maxReadyDelay = 0;
+    public bool enemyReady;
+
     public GameObject enemyBulletPrefab;
     public Transform enemyBulletSpawn;
     public Score scoreObject;
@@ -44,7 +51,8 @@ public class Enemy : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        //score = GameObject.Find("/score_text");
+        enemyReady = false;
+        readyDelay = Random.Range(minReadyDelay, maxReadyDelay);
         spawnPosition = transform.position;
         randomPositionX = Random.Range(-5, 5);
         randomPositionY = Random.Range(-5, 0);
@@ -56,7 +64,19 @@ public class Enemy : MonoBehaviour {
 
         playerVectorPosition = playerPosition.position;
 
-        if (enableMovement == true)
+
+        if (enemyReady == false)
+        {
+            readyDelay -= Time.deltaTime;
+            if (readyDelay <= 0)
+            {
+                enemyReady = true;
+                readyDelay = Random.Range(minReadyDelay, maxReadyDelay);
+            }
+        }
+
+        //Movement Time
+        if (enableMovement == true && enemyReady == true)
         {
             movementTime -= Time.deltaTime;
             if (movementTime > 0)
@@ -68,7 +88,7 @@ public class Enemy : MonoBehaviour {
 
         //Weapon Fire Delayed from spawned
         weaponDelay -= Time.deltaTime;
-        if (weaponDelay < 0 && weaponDelayDone == false)
+        if (weaponDelay < 0 && weaponDelayDone == false && enemyReady == true)
         {
             weaponDelayDone = true;
             weaponReady = true;
@@ -79,7 +99,7 @@ public class Enemy : MonoBehaviour {
 
 
         //Fire rate time delay
-        if (weaponReady == false)
+        if (weaponReady == false && enemyReady == true)
         {
             fireTimer -= Time.deltaTime;
             if (fireTimer <= 0)
@@ -91,6 +111,7 @@ public class Enemy : MonoBehaviour {
         }
 
 
+        //When health is depleted
         if (health <= 0)
         {
             scoreObject.AddScore(scoreValue);
@@ -108,13 +129,17 @@ public class Enemy : MonoBehaviour {
     
 
 
-
+    //On damaged
     public void damaged ()
     {
-        health = health - 50;
+        if (enemyReady == true)
+        {
+            health = health - 50;
+        }
     }
 
 
+    //Move towards the player
     public void chasePlayer ()
     {
         Vector2 posPlayer;
@@ -127,7 +152,7 @@ public class Enemy : MonoBehaviour {
     //Weapon fired
     void FireWeapon()
     {
-        if (weaponReady == true)
+        if (weaponReady == true && enemyReady == true)
         {
             weaponReady = false;
             //magazine = magazine - 1;
@@ -145,6 +170,7 @@ public class Enemy : MonoBehaviour {
     }
 
 
+    //Respawn the enemy
     public void respawn()
     {
         movementTime = 5;
@@ -152,10 +178,11 @@ public class Enemy : MonoBehaviour {
         transform.position = spawnPosition;
         randomPositionX = Random.Range(-5, 5);
         randomPositionY = Random.Range(-5, 0);
+        enemyReady = false;
     }
 
 
-
+    //Set new spawning position
     public void newRespawnPositions()
     {
         spawnPosition = new Vector2((Random.Range(8, 12)), (Random.Range(-15, -30)));

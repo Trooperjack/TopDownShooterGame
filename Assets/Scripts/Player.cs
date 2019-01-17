@@ -57,6 +57,7 @@ public class Player : MonoBehaviour {
     public MovingText movingTextObject;
     public DefendText defendTextObject;
     public KillsText killsTextObject;
+    public MovementText movementTextObject;
     public Enemy enemyObject;
 
     Vector2 newZonePos;
@@ -80,6 +81,7 @@ public class Player : MonoBehaviour {
         isDefending = false;
         posPart = 0;
         playerControl = "x";
+        movementTextObject.setToX();
         movingTextObject.removeMovingText();
         defendTextObject.removeDefendText();
 
@@ -171,8 +173,10 @@ public class Player : MonoBehaviour {
                 weaponReady = true;
                 movingToNewZonePos = false;
                 isDefending = true;
+                playerControl = "y";
                 posPart = 3;
                 travelTime = maxTravelTime;
+                movementTextObject.setToY();
                 movingTextObject.removeMovingText();
                 defendTextObject.beginDefendTimer();
                 enemyObject.newRespawnPositions();
@@ -288,10 +292,10 @@ public class Player : MonoBehaviour {
             Debug.Log("OBJECTIVE MET");
             zone = 2;
             newZonePos = new Vector2(0, -5);
-            playerControl = "y";
             traveling = true;
             killsRequired = killsRequired + 10;
             killsTextObject.removeObjective();
+            movementTextObject.setToMoving();
         }
     }
 
