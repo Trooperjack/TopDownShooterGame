@@ -57,6 +57,7 @@ public class Player : MonoBehaviour {
     public MovingText movingTextObject;
     public DefendText defendTextObject;
     public KillsText killsTextObject;
+    public Enemy enemyObject;
 
     Vector2 newZonePos;
 
@@ -153,12 +154,12 @@ public class Player : MonoBehaviour {
             movingTextObject.activateMovingText();
             if (playerPosition == newZonePos && posPart == 0)
             {
-                newZonePos = new Vector2(0, -30);
+                newZonePos = new Vector2(0, -18);
                 posPart = 1;
             }
             if (playerPosition == newZonePos && posPart == 1)
             {
-                newZonePos = new Vector2(-30, -30);
+                newZonePos = new Vector2(-22, -18);
                 posPart = 2;
             }
             if (playerPosition == newZonePos && posPart == 2)
@@ -174,6 +175,8 @@ public class Player : MonoBehaviour {
                 travelTime = maxTravelTime;
                 movingTextObject.removeMovingText();
                 defendTextObject.beginDefendTimer();
+                enemyObject.newRespawnPositions();
+                enemyObject.respawn();
             }
         }
 

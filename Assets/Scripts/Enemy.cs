@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour {
     public float randomPositionY = 0;
     public float randomPositionZ = 0;
 
-    public float speed = 5;
+    public float speed = 2;
     public Rigidbody2D physicsBody;
     public bool enableWeapon;
     public bool enableMovement;
@@ -118,7 +118,7 @@ public class Enemy : MonoBehaviour {
     public void chasePlayer ()
     {
         Vector2 posPlayer;
-        posPlayer = new Vector2((playerPosition.position.x + randomPositionX), (playerPosition.position.y + randomPositionY));
+        posPlayer = new Vector2((playerVectorPosition.x + randomPositionX), (playerVectorPosition.y + randomPositionY));
         enemyPosition.position = Vector2.MoveTowards(enemyPosition.position, posPlayer, Time.deltaTime * speed);
     }
 
@@ -134,7 +134,7 @@ public class Enemy : MonoBehaviour {
 
             //Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 posPlayer;
-            posPlayer = new Vector3(playerPosition.position.x, playerPosition.position.y);
+            posPlayer = new Vector3(playerVectorPosition.x, playerVectorPosition.y);
             Vector2 direction = (Vector2)((posPlayer - transform.position));
             direction.Normalize();
 
@@ -152,6 +152,13 @@ public class Enemy : MonoBehaviour {
         transform.position = spawnPosition;
         randomPositionX = Random.Range(-5, 5);
         randomPositionY = Random.Range(-5, 0);
+    }
+
+
+
+    public void newRespawnPositions()
+    {
+        spawnPosition = new Vector2((Random.Range(8, 12)), (Random.Range(-15, -30)));
     }
 
 

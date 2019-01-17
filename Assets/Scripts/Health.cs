@@ -56,7 +56,7 @@ public class Health : MonoBehaviour
     public void LoseHealth()
     {
         // Reduce the amount to the numerical health
-        numericalHealth = numericalHealth - 10;
+        numericalHealth = numericalHealth - 5;
 
         // Update the visual health
         healthText.text = numericalHealth.ToString();

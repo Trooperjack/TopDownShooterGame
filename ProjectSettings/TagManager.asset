@@ -16,10 +16,10 @@ TagManager:
   - Wall
   - Projectiles
   - 
+  - player_collider
   - 
-  - 
-  - 
-  - 
+  - playerActor
+  - enemyActor
   - 
   - 
   - 
@@ -52,4 +52,7 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 2378239555
+    locked: 0
+  - name: player_collider
+    uniqueID: 1892978511
     locked: 0
