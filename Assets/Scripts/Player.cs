@@ -207,7 +207,7 @@ public class Player : MonoBehaviour {
 
 
 
-        if (controllerInt > 0)
+        if (Input.GetJoystickNames().Length > 0)
         {
             crosshairObject.activateController();
             controllerActive = true;
