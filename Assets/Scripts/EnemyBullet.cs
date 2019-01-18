@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour {
 
-    public Collider2D bulletCollider;
+    public Sprite[] bulletTextures;
+    private Sprite currentTexture;
+    public float loopDelay = 0.2f;
+    private int counter;
 
+    public Rect r_sprite;
+
+    public Collider2D bulletCollider;
+    public Animator bulletAnimator;
+    public SpriteRenderer bulletSprite;
 
     private void Start()
     {
+        counter = 0;
         transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        StartCoroutine("SwitchSprite");
     }
 
 
@@ -37,10 +47,33 @@ public class EnemyBullet : MonoBehaviour {
     {
         LayerMask groundLayerMask = LayerMask.GetMask("Wall");
         bool touchingWall = bulletCollider.IsTouchingLayers(groundLayerMask);
+        bulletSprite.sprite = currentTexture;
 
         if (touchingWall == true)
         {
             Destroy(gameObject);
         }
     }
+
+
+
+
+    private IEnumerator SwitchSprite()
+    {
+        currentTexture = bulletTextures[counter];
+
+        if (counter < bulletTextures.Length)
+        {
+            counter++;
+        }
+        else
+        {
+            counter = 0;
+        }
+
+        yield return new WaitForSeconds(loopDelay);
+        StartCoroutine("SwitchSprite");
+    }
+
+
 }

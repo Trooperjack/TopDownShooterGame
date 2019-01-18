@@ -44,6 +44,9 @@ public class Player : MonoBehaviour {
     public float killsRequired = 10;
 
     public bool isDefending = false;
+    private string[] controllerString;
+    private int controllerInt;
+    private bool controllerActive;
 
     public Animator playerAnimator;
     public SpriteRenderer playerSprite;
@@ -59,8 +62,15 @@ public class Player : MonoBehaviour {
     public KillsText killsTextObject;
     public MovementText movementTextObject;
     public Enemy enemyObject;
+    public Crosshair crosshairObject;
+    public Transform crosshairTransformObject;
+
+    public AudioClip gunShot1;
+    public AudioClip gunShot2;
+    public AudioSource source;
 
     Vector2 newZonePos;
+    Vector3 crosshairPos;
 
     // Use this for initialization
     void Start () {
@@ -79,6 +89,7 @@ public class Player : MonoBehaviour {
         enableMovement = true;
         movingToNewZonePos = false;
         isDefending = false;
+        controllerActive = false;
         posPart = 0;
         playerControl = "x";
         movementTextObject.setToX();
@@ -91,6 +102,9 @@ public class Player : MonoBehaviour {
 	void Update () {
 
         playerPosition = transform.position;
+        controllerString = Input.GetJoystickNames();
+        controllerInt = controllerString.Length;
+        crosshairPos = crosshairTransformObject.position;
 
         //Current player movement axis
         if (playerControl == "xy" && enableMovement == true)
@@ -191,11 +205,18 @@ public class Player : MonoBehaviour {
 
 
 
-        if (isDefending == true)
+
+
+        if (controllerInt > 0)
         {
-
+            crosshairObject.activateController();
+            controllerActive = true;
         }
-
+        else
+        {
+            crosshairObject.removeController();
+            controllerActive = false;
+        }
 
 
     }
@@ -210,13 +231,32 @@ public class Player : MonoBehaviour {
             weaponReady = false;
             //magazine = magazine - 1;
 
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 direction = (Vector2)((mousePos - transform.position));
-            direction.Normalize();
+            if (controllerActive == true)
+            {
+                Vector3 crossPos = crosshairPos;
+                Vector2 direction = (Vector2)((crossPos - transform.position));
+                direction.Normalize();
 
-            var Bullet = (GameObject)Instantiate(bulletPrefab, bulletSpawn.position + (Vector3)(direction * 0.5f), Quaternion.identity);
-            Bullet.GetComponent<Rigidbody2D>().AddForce(direction * bulletForce);
-            Destroy(Bullet, 2.0f);
+                source.PlayOneShot(gunShot2);
+                var Bullet = (GameObject)Instantiate(bulletPrefab, bulletSpawn.position + (Vector3)(direction * 0.5f), Quaternion.identity);
+                Bullet.GetComponent<Rigidbody2D>().AddForce(direction * bulletForce);
+                Destroy(Bullet, 2.0f);
+            }
+            else
+            {
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 direction = (Vector2)((mousePos - transform.position));
+                direction.Normalize();
+
+                source.PlayOneShot(gunShot1);
+                var Bullet = (GameObject)Instantiate(bulletPrefab, bulletSpawn.position + (Vector3)(direction * 0.5f), Quaternion.identity);
+                Bullet.GetComponent<Rigidbody2D>().AddForce(direction * bulletForce);
+                Destroy(Bullet, 2.0f);
+            }
+
+            //var Bullet = (GameObject)Instantiate(bulletPrefab, bulletSpawn.position + (Vector3)(direction * 0.5f), Quaternion.identity);
+            //Bullet.GetComponent<Rigidbody2D>().AddForce(direction * bulletForce);
+            //Destroy(Bullet, 2.0f);
         }
     }
 

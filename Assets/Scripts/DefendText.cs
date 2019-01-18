@@ -13,8 +13,10 @@ public class DefendText : MonoBehaviour {
     public Text defendText;
     public bool startTimer;
 
-    public float defendTime = 60;
-    public float MaxDefendTime = 60;
+    public Score scoreObject;
+
+    public float defendTime = 10;
+    public float MaxDefendTime = 10;
 
     public string timeText;
 
@@ -37,7 +39,8 @@ public class DefendText : MonoBehaviour {
 
         if (defendTime <= 0)
         {
-            SceneManager.LoadScene("GameOver");
+            scoreObject.SaveScore();
+            SceneManager.LoadScene("Win");
         }
 
 	}

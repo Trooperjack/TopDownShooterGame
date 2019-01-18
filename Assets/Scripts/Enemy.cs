@@ -173,7 +173,7 @@ public class Enemy : MonoBehaviour {
     //Respawn the enemy
     public void respawn()
     {
-        movementTime = 5;
+        movementTime = 99;
         health = 100;
         transform.position = spawnPosition;
         randomPositionX = Random.Range(-5, 5);
